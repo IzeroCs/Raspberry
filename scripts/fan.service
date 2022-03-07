@@ -1,0 +1,12 @@
+[Unit]
+Description=PWM Fan Control
+After=mediacenter.service
+
+[Service]
+Type=simple
+User=root
+ExecStart= /usr/bin/python3 /root/scripts/fan.py > /root/scripts/fan.log 2>&1
+Restart=always
+
+[Install]
+WantedBy=default.target

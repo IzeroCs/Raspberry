@@ -1,0 +1,10 @@
+[Unit]
+Description=Oled Stats Service
+After=multi-user.target
+
+[Service]
+Type=idle
+ExecStart=/usr/bin/python3 /root/scripts/stats.py > /root/scripts/stats.log 2>&1
+
+[Install]
+WantedBy=multi-user.target
