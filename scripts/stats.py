@@ -130,6 +130,9 @@ def mem_replace(match):
 
     return str(used) + '/' + str(avai) + val
 
+def freq_str(freq):
+    return str(round(int(freq) / 1000000, 1)) + 'GHz'
+
 while True:
 
     # Draw a black filled box to clear the image.
@@ -145,12 +148,15 @@ while True:
     cmd = "df -h | awk '$NF==\"/\"{printf \"Disk: %d/%dGB %s\", $3,$2,$5}'"
     Disk = subprocess.check_output(cmd, shell = True )
     cmd = "vcgencmd measure_temp |cut -f 2 -d '='"
-    temp = subprocess.check_output(cmd, shell = True )
+    Temp = subprocess.check_output(cmd, shell = True )
+    cmd = "cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq"
+    Freq = subprocess.check_output(cmd, shell = True )
+
 
     # Write two lines of text.
 
     draw.text((x, top),       "IP: " + str(IP, 'utf-8'),  font=font, fill=255)
-    draw.text((x, top+8),     str(CPU, 'utf-8') + ", " + str(temp, 'utf-8'), font=font, fill=255)
+    draw.text((x, top+8),     "CPU: " + freq_str(str(Freq, 'utf-8')) + " " + str(Temp, 'utf-8'), font=font, fill=255)
     draw.text((x, top+16),    re.sub('([0-9]+)\/([0-9]+)@', mem_replace, str(MemUsage, 'utf-8')),  font=font, fill=255)
     draw.text((x, top+25),    str(Disk, 'utf-8'),  font=font, fill=255)
 
